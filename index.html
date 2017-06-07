@@ -12,20 +12,23 @@
 	
 	<div class="configuracion">
 		<div class="descanso">
+			<div>Duración del descanso</div>
 			<div class="menos"><button id="descansoMenos" role="button" onclick="restar(this)">-</button></div>
 			<div id="duracionDescanso">5</div>
 			<div class="mas"><button id="descansoMas" role="button" onclick="sumar(this)">+</button></div>
 		</div>
 	
 		<div class="pomodoro">
+			<div>Duración del pomodoro</div>
 			<div class="menos"><button id="pomodoroMenos" role="button" onclick="restar(this)">-</button></div>
-			<div class="pomodoro" id="duracionPomo">25</div>
+			<div class="pomodoro" id="duracionPomo">1</div>
 			<div class="mas"><button id="pomodoroMas" role="button" onclick="sumar(this)">+</button></div>
 		</div>
 	</div>
 
 	<div class="reloj" onclick="timer()">
-			<div class="conteo" id="tiempoFaltante">25</div>
+		    <div id="etapa">Session</div>
+			<div class="conteo" id="tiempoFaltante">1</div>
 	</div>
 </div>
 

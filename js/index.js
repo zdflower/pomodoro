@@ -1,39 +1,54 @@
 var time;
-var duracion;
+var duracionPomo;
+var duracionDescanso;
 var tiempoRestante; 
+var timerPomo;
 var relojActivo = false;
-var timerCoso;
+var etapa;
+var descanso = false;
+
+//me gustaría que cambiara el color de fondo del reloj dependiendo de la etapa
 
 function timer(){
-  time = document.getElementById('tiempoFaltante');
-  duracion = document.getElementById('duracionPomo').textContent;
-  tiempoRestante = duracion * 60000; //convierto minutos a milisegundos 
-
-  //no funciona bien con la conversión a minutos, el reloj muestra 0 antes de tiempo
-
-  //si el reloj está activo y se volvió a clickear, se termina, y no se puede continuar después, pero podés configurar
-  // y pasás relojActivo a false
-   if(relojActivo){ //es porque el timerCoso está funcionando y no está indefinido
-		clearInterval(timerCoso);
-		relojActivo = false;
-    } else {
-    	relojActivo = true;
-        var falta = tiempoRestante;//para poder resetear el contador cada vez que se clikea, no es lo que se pide, pero ya vamos a llegar
-	    time.textContent = falta;//msAMinutos(tiempoRestante); //convertir a minutos:segundos lo que se muestra en time, pero mantener tiempoRestante en milisegundos para hacer los cálculos
-	    timerCoso = setInterval(function actualizar(){
-			falta -= 1000;
-			time.textContent = falta;//msAMinutos(tiempoRestante);
-			var ahora = Date.now();
-			console.log("falta");
-			if (falta < 1000){
-				clearInterval(timerCoso);
-				relojActivo = false;
-				console.log("stop");
-				alert("Listo");
-				//deberías pasar al descanso, donde el reloj estaría nuevamente activo pero en otro estado...
-			}
-		}, 1000);
-	}
+  if (relojActivo){
+      clearInterval(timerPomo);
+      relojActivo = false;
+   } else {
+        relojActivo = true;
+        clearInterval(timerPomo);
+        etapa = document.getElementById('etapa');
+        etapa.textContent = "Session";
+        duracionPomo = document.getElementById('duracionPomo').textContent * 60000; //paso a milisegundos
+        duracionDescanso = document.getElementById('duracionDescanso').textContent * 60000; //paso a milisegundos
+        var desc = duracionDescanso;
+        var pomo = duracionPomo;
+        time = document.getElementById('tiempoFaltante');
+        time.textContent = pomo;
+        timerPomo = setInterval(function (){
+          if(pomo >= 0){
+            etapa.textContent = "Session";
+            console.log(etapa.textContent);
+            console.log("pomo: " + pomo);
+            time.textContent = pomo;
+            pomo -= 1000;           
+          } else {
+            time.textContent = desc;
+            if(desc >= 0){
+              etapa.textContent = "Break";
+              console.log(etapa.textContent);
+              console.log("desc" + desc);
+              time.textContent = desc;
+              desc -= 1000;
+            } else {
+              //vuelvo a resetear todo
+              pomo = duracionPomo;
+              desc = duracionDescanso;
+              etapa = document.getElementById('etapa');
+              etapa.textContent = "Session";
+            }
+         }
+        }, 1000);
+  }
 }
 
 function msAMinutos(ms){
