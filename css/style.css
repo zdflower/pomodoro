@@ -1,10 +1,31 @@
 /*
-ubicar la etapa arriba y al centro del reloj
-
-ubicar en el centro la configuración de las duraciones de cada etapa
-
 darle un mejor formato a los títulos de cada configuración
+usar una tipografía linda
 */
+
+/*
+  una forma de centrar un div que no sabés de antemano el tamaño de la caja que querés centrar:
+ 
+ al container le das position: relative;
+ y a la caja que está adentro y querés centrar
+ 
+ .box {
+       position: absolute;
+       left: 50%;
+       top: 50%;
+       transform: translateX(-50%);
+       transform: translateY(-50%);
+  }
+ 
+ 
+ otra es poner en el contenedor text-align: center
+ y en la caja display: inline-block
+ 
+ 
+ otra es con margin auto directamente en la caja ponés margin: auto;
+ 
+ */
+
 
 body {
 	background-color: pink;
@@ -23,14 +44,17 @@ header {
 }
 
 .configuracion {
-	position: absolute;
+	position: relative;
+	text-align: center;
 }
 .descanso {
 	background-color: green;
+	margin-left : auto;
 }
 
 .pomodoro {
 	background-color: red;
+	margin-right: auto;
 }
 
 .descanso, .pomodoro, .menos, .mas, #duracionDescanso, .duramenos {
@@ -38,17 +62,16 @@ header {
 	font-size: 24pt;	
 }
 
-
-
 .reloj {
     position: absolute;
 	top: 40%;
 	left: 30%;
 	width:40%;
 	height: 50%;
-	background-color: gray;
+	background-color: red;
 	border-radius: 50%;
 	box-shadow: 2px 2px 5px 2px black; /* horizontal vertical blur spread color */
+	text-align: center;
 }
 
 .conteo {
@@ -65,8 +88,9 @@ header {
 
 #etapa {
 	position: relative;
-	top:15%;
+	top:10%;/*
 	left: 35%;
-	width: 40%;
+	width: 40%;*/
 	font-size: 18pt;
+	/*display: inline-block;*/
 }
