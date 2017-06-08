@@ -6,8 +6,7 @@ var timerPomo;
 var relojActivo = false;
 var etapa;
 var descanso = false;
-
-//me gustaría que cambiara el color de fondo del reloj dependiendo de la etapa
+var reloj;
 
 function timer(){
   if (relojActivo){
@@ -16,6 +15,7 @@ function timer(){
    } else {
         relojActivo = true;
         clearInterval(timerPomo);
+	reloj = document.getElementById('reloj');
         etapa = document.getElementById('etapa');
         etapa.textContent = "Session";
         duracionPomo = document.getElementById('duracionPomo').textContent * 60000; //paso a milisegundos
@@ -23,21 +23,19 @@ function timer(){
         var desc = duracionDescanso;
         var pomo = duracionPomo;
         time = document.getElementById('tiempoFaltante');
-        time.textContent = pomo;
         timerPomo = setInterval(function (){
           if(pomo >= 0){
             etapa.textContent = "Session";
-            console.log(etapa.textContent);
-            console.log("pomo: " + pomo);
-            time.textContent = pomo;
-            pomo -= 1000;           
+	    reloj.style.background = 'red';
+            //console.log("pomo: " + time.textContent);
+            time.textContent = aMinutosYSegundos(pomo);
+            pomo -= 1000;
           } else {
-            time.textContent = desc;
             if(desc >= 0){
               etapa.textContent = "Break";
-              console.log(etapa.textContent);
-              console.log("desc" + desc);
-              time.textContent = desc;
+	      reloj.style.background = 'green';
+             //console.log("desc: " + time.textContent);
+              time.textContent = aMinutosYSegundos(desc);
               desc -= 1000;
             } else {
               //vuelvo a resetear todo
@@ -45,14 +43,30 @@ function timer(){
               desc = duracionDescanso;
               etapa = document.getElementById('etapa');
               etapa.textContent = "Session";
+	      reloj.style.background = 'red';
             }
          }
-        }, 1000);
+        }, 1000);//para testear más rápido voy a poner un cuarto de segundo
   }
 }
 
+function aMinutosYSegundos(ms){
+	var minutos = msAMinutos(ms);
+        var segundos = ((ms % 60000)/1000);
+	if (minutos < 10) {
+		minutos = '0' + String(minutos);
+	}
+
+	if (segundos < 10) {
+		segundos = '0' + String(segundos);;		
+	}
+	var res = String(minutos) + ":" + String(segundos);
+	return res;
+}
+
 function msAMinutos(ms){
-	return Math.round(ms/60000);
+	var res =  Math.floor(ms/60000);
+	return res;
 }
 
 function restar(obj){
