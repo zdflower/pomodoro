@@ -1,3 +1,5 @@
+/* falta mostrar minutos y segundos en vez de milisegundos*/
+
 var time;
 var duracionPomo;
 var duracionDescanso;
@@ -23,18 +25,22 @@ function timer(){
         var desc = duracionDescanso;
         var pomo = duracionPomo;
         time = document.getElementById('tiempoFaltante');
+        //time.textContent = pomo;// ¿hace falta este?  me parece que no hace falta
         timerPomo = setInterval(function (){
           if(pomo >= 0){
             etapa.textContent = "Session";
 	    reloj.style.background = 'red';
-            //console.log("pomo: " + time.textContent);
+            //console.log(etapa.textContent);
+            console.log("pomo: " + time.textContent);
             time.textContent = aMinutosYSegundos(pomo);
             pomo -= 1000;
           } else {
+            //time.textContent = desc;//¿este para qué? me parece que no hace falta
             if(desc >= 0){
               etapa.textContent = "Break";
 	      reloj.style.background = 'green';
-             //console.log("desc: " + time.textContent);
+              //console.log(etapa.textContent);
+              console.log("desc: " + time.textContent);
               time.textContent = aMinutosYSegundos(desc);
               desc -= 1000;
             } else {
@@ -50,9 +56,11 @@ function timer(){
   }
 }
 
+//faltaría un detallecito, que en vez de 0:59, sea 00:59
+// y que en vez de 25:0 sea 25:00
 function aMinutosYSegundos(ms){
 	var minutos = msAMinutos(ms);
-        var segundos = ((ms % 60000)/1000);
+        var segundos = ((ms % 60000)/1000); //.toPrecision(2) .toFixed(2);
 	if (minutos < 10) {
 		minutos = '0' + String(minutos);
 	}
@@ -61,12 +69,16 @@ function aMinutosYSegundos(ms){
 		segundos = '0' + String(segundos);;		
 	}
 	var res = String(minutos) + ":" + String(segundos);
-	return res;
+	return res;//con toFixed tal vez no hace falta castear a string
 }
 
 function msAMinutos(ms){
 	var res =  Math.floor(ms/60000);
 	return res;
+//.toFixed(2); to fixed es para decimales, tal vez sea necesario hablar de cifras significativas
+//tampoco, porque en vez de 00:59 muestra 0.0:59
+//tal vez si le pongo toFixed(0), no sé...
+//o agregar un if minutos o segundos === 0 reemplazar por 00
 }
 
 function restar(obj){
